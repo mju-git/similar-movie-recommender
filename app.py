@@ -2,6 +2,7 @@ import streamlit as st
 from streamlit import session_state as session
 import requests
 from itertools import cycle
+import pickle
 
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
