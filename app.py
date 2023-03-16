@@ -11,7 +11,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 st.set_page_config(page_title="Movie Recommender", layout="centered")
 
 # Load Our Dataset
-@st.cache(persist=True, show_spinner=False, suppress_st_warning=True)
+#@st.cache(persist=True, show_spinner=False, suppress_st_warning=True)
 def load_data(data):
     df = pd.read_pickle(data)
     return df
