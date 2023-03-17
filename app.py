@@ -16,6 +16,13 @@ def load_data(data):
    df = pd.read_csv(data, index_col=[0])
    return df
     
+@st.cache(persist=True, show_spinner=False, suppress_st_warning=True)
+def load_pickle(file):
+    with open(file, 'rb') as f:
+        df = pickle.load(f) # deserialize using load()
+        return df
+              
+
 # @st.cache(persist=True, show_spinner=False, suppress_st_warning=True)
 # def load_gdrive_data(url):
 #     path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
@@ -69,7 +76,7 @@ def get_recommendations(title, cosine_sim_mat, df, num_of_rec=16):
     indices = pd.Series(combined.index, index=combined['title'])
     
     id = indices[title]
-    print(len(cosine_sim_mat))
+    #print(len(cosine_sim_mat))
     #print(cosine_sim_mat[20])
     sim_scores = list(enumerate(cosine_sim_mat[id]))
     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
@@ -129,8 +136,8 @@ def main():
 
     dataframe = None
 
-    movies = load_data('data/movies.csv')
-    tfidf = load_data('data/similarity.csv').values
+    movies = load_pickle('data/movies.pkl')
+    tfidf = load_pickle('data/similarity.pkl')
     #tfidf = load_gdrive_data('https://drive.google.com/file/d/1_F1wc3V5BBCZi1DiKsg222czk4TV0Scl/view?usp=share_link')
     
 
