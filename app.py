@@ -11,18 +11,25 @@ from sklearn.metrics.pairwise import cosine_similarity
 st.set_page_config(page_title="Movie Recommender", layout="centered")
 
 # Load Our Dataset
-#@st.cache(persist=True, show_spinner=False, suppress_st_warning=True)
+@st.cache(persist=True, show_spinner=False, suppress_st_warning=True)
 def load_data(data):
-    df = pd.read_pickle(data)
-    return df
+   df = pd.read_csv(data, index_col=[0])
+   return df
+    
+# @st.cache(persist=True, show_spinner=False, suppress_st_warning=True)
+# def load_gdrive_data(url):
+#     path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
+#     df = pd.read_csv(path, index_col=[0]).values
+#     print(df)
+#     return df
 
 
-#def vectorize_text_to_cosine_mat(data):
-    tfidf_vect = TfidfVectorizer(analyzer='word', ngram_range=(1,2), stop_words='english')
-    tfidf_mat = tfidf_vect.fit_transform(data.values.astype(str))
-    # Get the cosine
-    cosine_sim_mat = cosine_similarity(tfidf_mat)
-    return cosine_sim_mat
+# def vectorize_text_to_cosine_mat(data):
+#     tfidf_vect = TfidfVectorizer(analyzer='word', ngram_range=(1,2), stop_words='english')
+#     tfidf_mat = tfidf_vect.fit_transform(data.values.astype(str))
+#     # Get the cosine
+#     cosine_sim_mat = cosine_similarity(tfidf_mat)
+#     return cosine_sim_mat
 
 # # Recommendation System
 # @st.cache(persist=True, show_spinner=False, suppress_st_warning=True)
@@ -55,14 +62,14 @@ def fetch_poster(movie_id):
     full_path = "https://image.tmdb.org/t/p/w154/" + poster_path
     return full_path
 
-@st.cache(persist=True, show_spinner=False)
+#@st.cache(persist=True, show_spinner=False)
 def get_recommendations(title, cosine_sim_mat, df, num_of_rec=16):
     combined = df.reset_index()
     #titles = combined[['title', 'year', 'vote_average']]
     indices = pd.Series(combined.index, index=combined['title'])
     
     id = indices[title]
-    sim_scores = list(enumerate(cosine_sim_mat[id]))
+    sim_scores = (enumerate(cosine_sim_mat[id]))
     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
     sim_scores = sim_scores[1:num_of_rec+1]
 
@@ -115,13 +122,16 @@ def search_term_if_not_found(term, df):
     result_df = df[df['title'].str.contains(term)][['title', 'year', 'vote_average', 'imdb_id']]
     return result_df
 
+
 def main():
 
     dataframe = None
 
-    movies = load_data('data/movies.pkl')
-    tfidf = load_data('data/similarity.pkl')
+    movies = load_data('data/movies.csv')
+    tfidf = load_data('data/similarity.csv').values
+    #tfidf = load_gdrive_data('https://drive.google.com/file/d/1_F1wc3V5BBCZi1DiKsg222czk4TV0Scl/view?usp=share_link')
     
+
     buffer1, col1, buffer2 = st.columns([0.1, 1, 0.1])
     title = col1.markdown('# :red[Movie Recommender system]')
 
