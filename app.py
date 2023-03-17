@@ -70,7 +70,7 @@ def get_recommendations(title, cosine_sim_mat, df, num_of_rec=16):
     
     id = indices[title]
     print(len(cosine_sim_mat))
-    print(cosine_sim_mat[20])
+    #print(cosine_sim_mat[20])
     sim_scores = list(enumerate(cosine_sim_mat[id]))
     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
     sim_scores = sim_scores[1:num_of_rec+1]
