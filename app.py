@@ -142,7 +142,7 @@ def main():
     
 
     buffer1, col1, buffer2 = st.columns([0.1, 1, 0.1])
-    title = col1.markdown('# :red[Movie Recommender system]')
+    title = col1.markdown('# :red[Movie Recommender System]')
 
     st.text("")
     st.text("")
