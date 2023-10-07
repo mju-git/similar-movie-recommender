@@ -136,8 +136,8 @@ def main():
 
     dataframe = None
 
-    movies = load_pickle('data/movies.pkl')
-    tfidf = load_pickle('data/similarity.pkl')
+    movies = load_pickle('movie-recommender/data/movies.pkl')
+    tfidf = load_pickle('movie-recommender/data/similarity.pkl')
     #tfidf = load_gdrive_data('https://drive.google.com/file/d/1_F1wc3V5BBCZi1DiKsg222czk4TV0Scl/view?usp=share_link')
     
 
