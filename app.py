@@ -11,12 +11,12 @@ from sklearn.metrics.pairwise import cosine_similarity
 st.set_page_config(page_title="Movie Recommender", layout="centered")
 
 # Load Our Dataset
-@st.cache_data(persist=True, show_spinner=False)
+# @st.cache_data(persist=True, show_spinner=False)
 def load_data(data):
    df = pd.read_csv(data, index_col=[0])
    return df
     
-@st.cache_data(persist=True, show_spinner=False)
+# @st.cache_data(persist=True, show_spinner=False)
 def load_pickle(file):
     with open(file, 'rb') as f:
         df = pickle.load(f) # deserialize using load()
@@ -126,7 +126,7 @@ def get_recommendations(title, cosine_sim_mat, df, num_of_rec=16):
 # """
 
 # Search for movie
-@st.cache_data(persist=True, show_spinner=False)
+# @st.cache_data(persist=True, show_spinner=False)
 def search_term_if_not_found(term, df):
     result_df = df[df['title'].str.contains(term)][['title', 'year', 'vote_average', 'imdb_id']]
     return result_df
