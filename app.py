@@ -11,19 +11,19 @@ from sklearn.metrics.pairwise import cosine_similarity
 st.set_page_config(page_title="Movie Recommender", layout="centered")
 
 # Load Our Dataset
-@st.cache(persist=True, show_spinner=False, suppress_st_warning=True)
+#@st.cache_data(persist=True, show_spinner=False)
 def load_data(data):
    df = pd.read_csv(data, index_col=[0])
    return df
     
-@st.cache(persist=True, show_spinner=False, suppress_st_warning=True)
+#@st.cache_data(persist=True, show_spinner=False)
 def load_pickle(file):
     with open(file, 'rb') as f:
         df = pickle.load(f) # deserialize using load()
         return df
               
 
-# @st.cache(persist=True, show_spinner=False, suppress_st_warning=True)
+# @st.cache_data(persist=True, show_spinner=False, =True)
 # def load_gdrive_data(url):
 #     path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
 #     df = pd.read_csv(path, index_col=[0]).values
@@ -39,7 +39,7 @@ def load_pickle(file):
 #     return cosine_sim_mat
 
 # # Recommendation System
-# @st.cache(persist=True, show_spinner=False, suppress_st_warning=True)
+# @st._data(persist=True, show_spinner=False, =True)
 # def get_recommendations(title, cosine_sim_mat, df, num_of_rec=16):
 #     # indices of the movies
 #     movie_indices = pd.Series(df.index, index=df['title'])
@@ -69,7 +69,7 @@ def fetch_poster(movie_id):
     full_path = "https://image.tmdb.org/t/p/w154/" + poster_path
     return full_path
 
-#@st.cache(persist=True, show_spinner=False)
+#@st._data(persist=True, show_spinner=False)
 def get_recommendations(title, cosine_sim_mat, df, num_of_rec=16):
     combined = df.reset_index()
     #titles = combined[['title', 'year', 'vote_average']]
@@ -99,7 +99,7 @@ def get_recommendations(title, cosine_sim_mat, df, num_of_rec=16):
     # movie_indices = [i[0] for i in sim_scores]
     # return titles.iloc[movie_indices]
 
-# @st.cache(persist=True, show_spinner=False, suppress_st_warning=True)
+# @st._data(persist=True, show_spinner=False, =True)
 # def recommend(list_of_movies, tfidf_matrix, df, num_of_rec=16):
     
 #     df = df.reset_index()
@@ -126,7 +126,7 @@ def get_recommendations(title, cosine_sim_mat, df, num_of_rec=16):
 # """
 
 # Search for movie
-@st.cache(persist=True, show_spinner=False, suppress_st_warning=True)
+#@st.cache_data(persist=True, show_spinner=False)
 def search_term_if_not_found(term, df):
     result_df = df[df['title'].str.contains(term)][['title', 'year', 'vote_average', 'imdb_id']]
     return result_df
@@ -164,12 +164,12 @@ def main():
 
     buffer1, col4, buffer2 = st.columns([1.15, 0.5, 1.15])
 
-    session.is_clicked = col4.button(label="Recommend", key=1)
+    session.click = col4.button(label="Recommend", key=1)
 
     st.text("")
     st.text("")
 
-    if session.is_clicked:
+    if session.click:
         rec_movies, posters, url = get_recommendations(session.options, cosine_sim_mat=tfidf, df=movies, num_of_rec=session.slider_count)
          #display with the columns
 
